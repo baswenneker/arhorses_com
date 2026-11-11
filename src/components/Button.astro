@@ -1,0 +1,21 @@
+---
+interface Props {
+  href: string;
+  variant?: 'outline' | 'solid' | 'light';
+  class?: string;
+}
+
+const { href, variant = 'outline', class: className } = Astro.props;
+const variants = {
+  outline: 'border-black text-black hover:bg-black hover:text-cream',
+  solid: 'border-black bg-black text-cream hover:bg-transparent hover:text-black',
+  light: 'border-milk text-milk hover:bg-milk hover:text-saddle',
+};
+---
+
+<a
+  href={href}
+  class:list={['label-caps block border px-6 py-4 text-center no-underline sm:inline-block sm:py-3.5', variants[variant], className]}
+>
+  <slot />
+</a>

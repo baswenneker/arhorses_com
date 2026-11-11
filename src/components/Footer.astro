@@ -1,0 +1,40 @@
+---
+import { url } from '../lib/url';
+import { Image } from 'astro:assets';
+import logo from '../assets/site/logo.png';
+import { nav, site } from '../data/site';
+
+const footerNav = [{ label: 'Home', href: '/' }, ...nav];
+---
+
+<footer class="bg-tan text-black">
+  <div class="container-site flex flex-col gap-9 pt-14 pb-7 md:gap-12 md:pt-18 md:pb-8">
+    <div class="flex flex-wrap justify-between gap-12">
+      <div class="flex flex-wrap items-start gap-6">
+        <Image src={logo} alt="Logo AR Horses" width={120} height={120} densities={[1, 2]} class="size-24 md:size-30" />
+        <address class="flex flex-col gap-1 text-base leading-6 not-italic">
+          <span class="mb-2 font-display text-[26px] leading-[30px] font-bold tracking-[-0.02em] text-ink md:text-[28px] md:leading-8">
+            {site.legalName.toUpperCase()}
+          </span>
+          <span>{site.street}</span>
+          <span>{site.city}</span>
+          {site.phone && <a href={`tel:${site.phone.replace(/\s/g, '')}`}>Tel. {site.phone}</a>}
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </address>
+      </div>
+      <nav aria-label="Footermenu" class="label-caps grid grid-cols-2 gap-x-4 gap-y-1 md:flex md:flex-col md:items-start">
+        {
+          footerNav.map((item) => (
+            <a href={url(item.href)} class="border-b border-transparent py-3 no-underline hover:border-black md:py-2">
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+    <div class="flex flex-col justify-between gap-1 border-t border-black/35 pt-5 text-[13px] leading-[18px] sm:flex-row sm:flex-wrap sm:gap-2">
+      <span>© {new Date().getFullYear()} {site.legalName}</span>
+      <span>{site.tagline}</span>
+    </div>
+  </div>
+</footer>

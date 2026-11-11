@@ -1,0 +1,22 @@
+---
+import ArrowIcon from './ArrowIcon.astro';
+
+interface Props {
+  number: string;
+  title: string;
+  text: string;
+  href: string;
+}
+const { number, title, text, href } = Astro.props;
+---
+
+<a href={href} class="group flex items-center gap-4 border-b-2 border-charcoal px-1 py-5 text-charcoal no-underline hover:bg-cream md:flex-wrap md:gap-x-8 md:px-4 md:py-7">
+  <span class="w-11 flex-none font-serif text-[40px] leading-10 font-light md:w-18 md:text-[56px] md:leading-[56px]">{number}</span>
+  <span class="flex min-w-0 flex-1 flex-col gap-1 md:basis-70 md:gap-1.5">
+    <span class="font-display text-xl leading-[22px] font-semibold tracking-[-0.03em] text-ink uppercase md:text-[28px] md:leading-[30px]">{title}</span>
+    <span class="text-sm leading-5 md:text-[15px] md:leading-[22px]">{text}</span>
+  </span>
+  <span class="flex flex-none items-center justify-center md:size-13 md:border md:border-charcoal md:group-hover:bg-charcoal md:group-hover:text-cream">
+    <ArrowIcon />
+  </span>
+</a>

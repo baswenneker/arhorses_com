@@ -1,0 +1,17 @@
+---
+// A photo with an offset linen block behind it.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  priority?: boolean;
+}
+const { src, alt, priority = false } = Astro.props;
+---
+
+<div class="relative pt-5 pl-5 md:pt-8 md:pl-8">
+  <div aria-hidden="true" class="absolute top-0 right-5 bottom-5 left-0 bg-linen md:right-8 md:bottom-8"></div>
+  <Image src={src} alt={alt} widths={[400, 600, 800]} sizes="(min-width: 768px) 560px, 100vw" loading={priority ? 'eager' : 'lazy'} class="relative block aspect-[6/7] w-full object-cover" />
+</div>

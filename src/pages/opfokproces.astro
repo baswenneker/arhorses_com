@@ -1,0 +1,55 @@
+---
+import { url } from '../lib/url';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import { steps } from '../data/opfok';
+import { site } from '../data/site';
+---
+
+<BaseLayout title="Opfokproces – AR Horses" description="Elk paard doorloopt bij AR Horses vijf stappen: van de eerste selectie tot de overdracht aan de nieuwe eigenaar.">
+  <section>
+    <div class="container-site flex flex-wrap items-end gap-x-16 gap-y-6 pt-12 pb-10 md:gap-y-8 md:pt-22 md:pb-14">
+      <div class="flex min-w-0 flex-[1_1_460px] flex-col gap-6">
+        <p class="label-caps">Ons opfokproces</p>
+        <h1 class="font-display text-[clamp(56px,7vw,88px)] leading-[0.95] font-bold tracking-[-0.03em] text-ink">From Foal<br />to Future.</h1>
+      </div>
+      <p class="min-w-0 flex-[1_1_380px] text-lg leading-7 md:text-xl md:leading-[30px]">
+        Elk paard doorloopt bij ons vijf stappen: van de eerste selectie tot de overdracht aan de nieuwe eigenaar. Zo weet je precies waar een paard vandaan komt en hoe het is opgegroeid.
+      </p>
+    </div>
+  </section>
+
+  <section aria-label="De vijf stappen van het opfokproces">
+    <div class="container-site pb-16 md:pb-24">
+      <ol class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2 bg-linen p-2">
+        {
+          steps.map((step, i) => (
+            <li class:list={['flex flex-col', step.tone]}>
+              <Image src={step.photo} alt={step.alt} widths={[200, 400]} sizes="(min-width: 1200px) 230px, (min-width: 640px) 50vw, 100vw" class="block aspect-[5/8] w-full object-cover" />
+              <div class="flex grow flex-col px-5 pt-6 pb-8">
+                <span class="font-serif text-[56px] leading-[56px] font-light">{String(i + 1).padStart(2, '0')}</span>
+                <hr class="my-3.5 w-8 border-0 border-t border-current" />
+                <h2 class="mb-3 text-sm leading-5 font-semibold tracking-[0.14em] uppercase">{step.title}</h2>
+                <p class="text-sm leading-[21px]">{step.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="bg-sand text-charcoal">
+    <div class="container-site flex flex-wrap items-center justify-between gap-8 py-16 md:py-24">
+      <div class="flex min-w-0 flex-[1_1_480px] flex-col gap-4">
+        <h2 class="font-display text-4xl leading-10 font-bold tracking-[-0.03em] text-ink md:text-5xl md:leading-[50px]">Ambition to Grow.<br />Results for Tomorrow.</h2>
+        <p class="text-base leading-6 md:text-lg md:leading-7">Benieuwd welke paarden nu in een van deze stappen zitten? Bekijk onze paarden of neem contact met ons op.</p>
+      </div>
+      <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+        <Button href={url('/#paarden')} variant="solid">Bekijk onze paarden</Button>
+        <Button href={`mailto:${site.email}`}>Neem contact op</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,92 @@
+---
+import { url } from '../lib/url';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import LinkRow from '../components/LinkRow.astro';
+import FramedPhoto from '../components/FramedPhoto.astro';
+import HorseCard from '../components/HorseCard.astro';
+import CoffeePanel from '../components/CoffeePanel.astro';
+import logo from '../assets/site/logo.png';
+import hero from '../assets/horses/wynoah-mg.jpg';
+import portrait from '../assets/site/contact-portrait.jpg';
+import { horses } from '../data/horses';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="AR Horses – From Foal to Future"
+  description="AR Horses geeft jonge, talentvolle paarden de tijd en ruimte om zich te ontwikkelen, van veulen tot toekomstige sportpartner."
+>
+  <section>
+    <div class="container-site flex flex-wrap items-end gap-7 pt-10 pb-16 md:gap-12 md:pt-18 md:pb-24">
+      <div class="flex min-w-0 flex-[1_1_480px] flex-col gap-7 md:gap-10">
+        <h1 class="font-display text-[clamp(56px,8vw,104px)] leading-[0.95] font-bold tracking-[-0.03em] text-ink">From Foal<br />to Future.</h1>
+        <Image src={hero} alt="Bruin veulen in draf in de binnenbak" widths={[400, 668]} sizes="(min-width: 768px) 640px, 100vw" loading="eager" class="block aspect-[4/3] w-full object-cover md:aspect-[5/3]" />
+      </div>
+      <div class="flex min-w-0 flex-[1_1_380px] flex-col gap-7">
+        <Image src={logo} alt="Logo AR Horses: paardenkop met de letters AR" width={220} height={220} densities={[1, 2]} class="hidden size-55 md:block" />
+        <p class="text-lg leading-7 md:text-xl md:leading-[30px]">
+          Bij AR Horses geven we jonge, talentvolle paarden de tijd en ruimte om zich optimaal te ontwikkelen. Met aandacht voor <strong class="font-bold">welzijn, kwaliteit en transparantie</strong> begeleiden we hen van veulen naar toekomstige sportpartner.
+        </p>
+        <p class="font-display text-[26px] leading-8 font-semibold tracking-[-0.02em] text-ink md:text-[32px] md:leading-[38px]">Ambition to Grow.<br />Results for Tomorrow.</p>
+        <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <Button href="#paarden" variant="solid">Bekijk onze paarden</Button>
+          <Button href="#contact">Neem contact op</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Ontdek AR Horses" class="bg-sand text-charcoal">
+    <div class="container-site flex flex-wrap gap-8 py-16 md:gap-12 md:py-24">
+      <div class="flex min-w-0 flex-[1_1_280px] flex-col gap-3 md:gap-4">
+        <h2 class="font-display text-4xl leading-10 font-bold tracking-[-0.03em] text-ink md:text-[40px] md:leading-11">Ontdek<br class="hidden md:block" /> AR Horses</h2>
+        <p class="text-base leading-6">Van onze paarden tot het verhaal erachter. Kies waar je wilt beginnen.</p>
+      </div>
+      <div class="flex min-w-0 flex-[999_1_560px] flex-col border-t-2 border-charcoal">
+        <LinkRow number="01" title="Sporthorses" text="Bekijk de jonge paarden die we nu opfokken en volgen." href="#paarden" />
+        <LinkRow number="02" title="About AR Horses" text="Ons verhaal: wie we zijn en waarom we dit doen." href={url('/over-ons/')} />
+        <LinkRow number="03" title="From Foal to Future" text="Het opfokproces van AR Horses, van selectie tot nieuwe eigenaar." href={url('/opfokproces/')} />
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="scroll-mt-20 md:scroll-mt-0">
+    <div class="container-site flex flex-col-reverse gap-10 py-16 md:flex-row md:flex-wrap md:items-center md:gap-16 md:py-24">
+      <div class="flex min-w-0 flex-[1_1_400px] flex-col gap-4 md:gap-5">
+        <h2 class="font-display text-[44px] leading-[46px] font-bold tracking-[-0.03em] text-ink md:text-[56px] md:leading-[56px]">Get in Touch</h2>
+        <p class="text-[17px] leading-[26px] md:text-lg md:leading-7">
+          Op zoek naar een toekomstig sportpaard of benieuwd naar het verhaal achter AR Horses? Neem gerust contact met ons op. We vertellen je graag meer.
+        </p>
+        <p class="mt-1 font-script text-[44px] leading-12 text-ink md:mt-2 md:text-[52px] md:leading-[52px]">Anne &amp; Rokien</p>
+        <div class="mt-2 flex flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6 md:mt-3">
+          <Button href={`mailto:${site.email}`} class="sm:px-8">Contact</Button>
+          <a href={`mailto:${site.email}`} class="self-center p-2 text-base sm:p-0">{site.email}</a>
+        </div>
+      </div>
+      <div class="min-w-0 flex-[1_1_400px]">
+        <FramedPhoto src={portrait} alt="Portret van een donkerbruin jong paard" />
+      </div>
+    </div>
+  </section>
+
+  <section id="paarden" class="scroll-mt-20 bg-cream text-charcoal md:scroll-mt-0">
+    <div class="container-site flex flex-col gap-7 py-16 md:gap-10 md:py-24">
+      <div class="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-end md:justify-between md:gap-4">
+        <div class="flex flex-col gap-3">
+          <h2 class="font-display text-[40px] leading-11 font-bold tracking-[-0.03em] text-ink md:text-[56px] md:leading-[56px]">Onze paarden</h2>
+          <p class="text-base leading-6 md:text-lg md:leading-7">Elk paard heeft een eigen Instagram. Volg hun ontwikkeling van dichtbij.</p>
+        </div>
+        <a href={site.instagram} class="label-caps flex items-center gap-2 py-2.5 md:py-3">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.8"></circle></svg>
+          {site.instagramHandle}
+        </a>
+      </div>
+      <div class="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4">
+        {horses.map((horse) => <HorseCard horse={horse} />)}
+        <CoffeePanel text="Kom gerust langs op ons bezoekadres in Den Hoorn. De koffie staat klaar." />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

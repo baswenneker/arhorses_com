@@ -1,0 +1,18 @@
+---
+import { Image } from 'astro:assets';
+import type { Horse } from '../data/horses';
+
+interface Props {
+  horse: Horse;
+}
+const { horse } = Astro.props;
+---
+
+<article class="flex flex-col border-2 border-charcoal bg-cream">
+  <Image src={horse.photo} alt={horse.alt} widths={[400, 600]} sizes="(min-width: 768px) 380px, 100vw" class="block aspect-[4/3] w-full object-cover" />
+  <div class="flex flex-col gap-1.5 p-4 md:gap-2 md:p-5">
+    <h3 class="font-display text-[22px] leading-6 font-medium tracking-[-0.04em] text-ink uppercase md:text-2xl">{horse.name}</h3>
+    <p class="text-[13px] leading-[18px] tracking-[0.04em] uppercase">{horse.pedigree}</p>
+    <a href={`https://www.instagram.com/${horse.instagram}`} class="py-1 text-sm leading-5 [overflow-wrap:anywhere]">@{horse.instagram}</a>
+  </div>
+</article>

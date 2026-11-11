@@ -1,0 +1,73 @@
+---
+import { url } from '../lib/url';
+import { Image } from 'astro:assets';
+import logo from '../assets/site/logo.png';
+import { nav } from '../data/site';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => href !== '/' && !href.includes('#') && path.startsWith(url(href));
+---
+
+<header class="sticky top-0 z-10 border-b border-black/25 bg-tan md:static">
+  <div class="container-site flex items-center justify-between gap-4 py-2.5 md:py-4">
+    <a href={url('/')} class="flex items-center gap-3 no-underline" aria-label="AR Horses, naar de homepage">
+      <Image src={logo} alt="" width={56} height={56} densities={[1, 2]} class="size-11 md:size-14" />
+      <span class="font-display text-lg font-bold tracking-[-0.02em] md:text-xl">AR HORSES</span>
+    </a>
+
+    <nav aria-label="Hoofdmenu" class="label-caps hidden flex-wrap items-center gap-x-7 gap-y-2 md:flex">
+      {
+        nav.map((item) => (
+          <a
+            href={url(item.href)}
+            aria-current={isCurrent(item.href) ? 'page' : undefined}
+            class="border-b border-transparent py-3 no-underline hover:border-black aria-[current=page]:border-black"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a href={url('/#contact')} class="border border-black px-[22px] py-3 no-underline hover:bg-black hover:text-cream">Contact</a>
+    </nav>
+
+    <button
+      type="button"
+      id="menu-toggle"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      aria-label="Menu openen"
+      class="flex size-12 cursor-pointer items-center justify-center border border-black md:hidden"
+    >
+      <svg data-icon="open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"></path></svg>
+      <svg data-icon="close" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+  </div>
+
+  <nav id="mobile-menu" aria-label="Hoofdmenu" class="hidden flex-col bg-ink pt-2 pb-6 md:hidden">
+    {
+      nav.map((item) => (
+        <a href={url(item.href)} class="p-4 font-display text-2xl font-semibold tracking-[-0.02em] text-milk no-underline hover:bg-saddle">
+          {item.label}
+        </a>
+      ))
+    }
+    <a href={url('/#contact')} class="label-caps mx-4 mt-3 border border-milk px-6 py-3.5 text-center text-milk no-underline">Contact</a>
+  </nav>
+</header>
+
+<script>
+  const button = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  if (button && menu) {
+    const setOpen = (open: boolean) => {
+      menu.classList.toggle('hidden', !open);
+      menu.classList.toggle('flex', open);
+      button.setAttribute('aria-expanded', String(open));
+      button.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
+      button.querySelector('[data-icon="open"]')?.classList.toggle('hidden', open);
+      button.querySelector('[data-icon="close"]')?.classList.toggle('hidden', !open);
+    };
+    button.addEventListener('click', () => setOpen(menu.classList.contains('hidden')));
+    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+  }
+</script>

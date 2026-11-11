@@ -1,0 +1,19 @@
+{
+  "name": "arhorses-com",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource/cormorant-garamond": "^5.3.0",
+    "@fontsource/mrs-saint-delafield": "^5.3.0",
+    "@fontsource/nunito": "^5.3.0",
+    "@fontsource/outfit": "^5.3.0",
+    "@tailwindcss/vite": "4.3.5",
+    "astro": "7.4.11",
+    "tailwindcss": "4.3.5"
+  }
+}

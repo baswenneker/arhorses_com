@@ -1,0 +1,71 @@
+---
+import { url } from '../lib/url';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FramedPhoto from '../components/FramedPhoto.astro';
+import CoffeePanel from '../components/CoffeePanel.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+import anneRokien from '../assets/site/anne-rokien.jpg';
+
+const people = [
+  { name: 'Anne', initial: 'A', traits: 'Details · uitstraling · beweging', text: 'Anne kijkt scherp naar details, uitstraling en beweging.' },
+  { name: 'Rokien', initial: 'R', traits: 'Lef · mogelijkheden · bloedlijnen', text: 'Rokien heeft lef, ziet mogelijkheden en duikt volledig in alle bloedlijnen.' },
+];
+---
+
+<BaseLayout title="Over ons – AR Horses" description="Anne en Rokien zijn de gezichten achter AR Horses. Samen selecteren en volgen ze jonge paarden.">
+  <section>
+    <div class="container-site flex flex-wrap items-start gap-10 pt-12 pb-16 md:gap-16 md:pt-22 md:pb-24">
+      <div class="flex min-w-0 flex-[1_1_460px] flex-col gap-6 md:gap-7">
+        <p class="label-caps">Over ons</p>
+        <h1 class="font-display text-[clamp(56px,7vw,88px)] leading-[0.95] font-bold tracking-[-0.03em] text-ink">About<br />AR Horses</h1>
+        <p class="text-xl leading-[30px] md:text-[22px] md:leading-8">
+          Wij zijn de gezichten achter AR Horses. Samen selecteren en volgen we jonge paarden met oog voor <strong class="font-bold">afkomst, ontwikkeling en sport</strong>.
+        </p>
+        <p class="text-[17px] leading-[26px] md:text-lg md:leading-7">
+          Verschillend in karakter, maar met dezelfde blik op paarden en dezelfde ambitie voor de toekomst. Met Hestia en Azuero als vast onderdeel van ons paardenleven ontstaan steeds weer nieuwe ideeën en plannen.
+        </p>
+        <p class="mt-2 font-script text-[48px] leading-12 text-ink md:text-[56px] md:leading-[56px]">Anne &amp; Rokien</p>
+      </div>
+      <div class="min-w-0 flex-[1_1_440px]">
+        <FramedPhoto src={anneRokien} alt="Anne en Rokien te paard op een bospad, lachend naar de camera" priority />
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="twee-blikken" class="bg-sand text-charcoal">
+    <div class="container-site flex flex-col gap-8 py-16 md:gap-12 md:py-24">
+      <h2 id="twee-blikken" class="max-w-[760px] font-display text-4xl leading-10 font-bold tracking-[-0.03em] text-ink md:text-5xl md:leading-[50px]">
+        Twee verschillende blikken. Eén gezamenlijke visie.
+      </h2>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-4 md:gap-6">
+        {
+          people.map((person) => (
+            <article class="flex flex-col border-2 border-charcoal">
+              <div class="flex items-baseline justify-between gap-4 border-b-2 border-charcoal px-6 pt-6 pb-10 md:px-7 md:pt-7 md:pb-12">
+                <h3 class="font-display text-[32px] leading-[34px] font-semibold tracking-[-0.03em] text-ink uppercase">{person.name}</h3>
+                <span class="font-serif text-5xl leading-12 font-light" aria-hidden="true">{person.initial}</span>
+              </div>
+              <div class="flex flex-col gap-3 p-6 md:p-7">
+                <p class="text-[13px] font-bold tracking-[0.14em] uppercase">{person.traits}</p>
+                <p class="text-[17px] leading-[26px]">{person.text}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container-site flex flex-wrap gap-4 py-16 md:gap-6 md:py-24">
+      <CoffeePanel text="We hebben goede koffie en vertellen je graag meer." layout="row" headingLevel="h2" />
+      <a href={url('/opfokproces/')} class="flex min-w-0 flex-[1_1_320px] flex-col justify-between gap-6 border border-black p-7 no-underline hover:bg-black hover:text-cream md:p-10">
+        <span class="label-caps">Hoe wij werken</span>
+        <span class="flex items-end justify-between gap-4">
+          <span class="font-display text-[32px] leading-[34px] font-bold tracking-[-0.03em]">From Foal<br />to Future.</span>
+          <ArrowIcon size={28} />
+        </span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
