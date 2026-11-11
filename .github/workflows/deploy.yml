@@ -1,8 +1,10 @@
-name: Deploy to GitHub Pages
+name: Build and deploy
 
+# main:       build only, so a broken build shows up before it goes live.
+# production: build and publish to GitHub Pages.
 on:
   push:
-    branches: [main]
+    branches: [main, production]
   workflow_dispatch:
 
 permissions:
@@ -11,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -22,6 +24,7 @@ jobs:
       - uses: withastro/action@v6
 
   deploy:
+    if: github.ref == 'refs/heads/production'
     needs: build
     runs-on: ubuntu-latest
     environment:

@@ -26,8 +26,16 @@ Photos are converted to WebP and resized at build time; drop in the original JPG
 
 ## Deploy
 
-Every push to `main` builds the site and publishes it on GitHub Pages
-(`.github/workflows/deploy.yml`).
+Two branches (`.github/workflows/deploy.yml`):
+
+- `main`: work in progress. Every push builds the site, but does not publish it.
+- `production`: the live site. Every push builds and publishes to GitHub Pages.
+
+To publish what is on `main`:
+
+```bash
+git push origin main:production
+```
 
 The site currently runs at the temporary address
 https://baswenneker.github.io/arhorses_com/. To move it to arhorses.com, follow
