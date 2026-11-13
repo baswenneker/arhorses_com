@@ -6,7 +6,6 @@ import ConsentScripts from '../components/ConsentScripts.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
 import logo from '../assets/site/logo.png';
 import { getImage } from 'astro:assets';
-import { tracking } from '../data/site';
 
 interface Props {
   title: string;
@@ -16,8 +15,6 @@ interface Props {
 const { title, description } = Astro.props;
 const favicon = await getImage({ src: logo, width: 64, height: 64, format: 'png' });
 const canonical = new URL(Astro.url.pathname, Astro.site);
-// No tracking IDs yet: no trackers, so no banner either.
-const hasTracking = Boolean(tracking.gaMeasurementId || tracking.metaPixelId);
 ---
 
 <!doctype html>
@@ -33,7 +30,7 @@ const hasTracking = Boolean(tracking.gaMeasurementId || tracking.metaPixelId);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
-    {hasTracking && <ConsentScripts />}
+    <ConsentScripts />
   </head>
   <body>
     <Header />
@@ -41,6 +38,6 @@ const hasTracking = Boolean(tracking.gaMeasurementId || tracking.metaPixelId);
       <slot />
     </main>
     <Footer />
-    {hasTracking && <ConsentBanner />}
+    <ConsentBanner />
   </body>
 </html>

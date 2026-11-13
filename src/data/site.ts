@@ -14,9 +14,11 @@ export const site = {
 // Tracking IDs. While an ID is empty, that tracker is not loaded at all.
 export const tracking = {
   // Google Analytics 4 measurement ID, e.g. 'G-XXXXXXXXXX'.
-  gaMeasurementId: '',
+  // TODO: test value, replace with the real ID before deploying.
+  gaMeasurementId: 'G-TEST123',
   // Meta (Facebook/Instagram) Pixel ID, e.g. '1234567890123456'.
-  metaPixelId: '',
+  // TODO: test value, replace with the real ID before deploying.
+  metaPixelId: '1234567890',
 };
 
 export const nav = [
