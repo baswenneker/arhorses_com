@@ -1,0 +1,102 @@
+---
+// Cookie banner: equal "Akkoord" and "Weigeren" buttons, plus per-purpose settings.
+// Any element with [data-consent-open] (the footer link) reopens it.
+import { url } from '../lib/url';
+
+const buttonBase = 'label-caps flex-1 cursor-pointer border px-5 py-3.5 text-center sm:flex-none';
+---
+
+<section
+  id="consent-banner"
+  aria-labelledby="consent-title"
+  hidden
+  class="fixed inset-x-0 bottom-0 z-50 border-t border-black/20 bg-cream text-black shadow-[0_-8px_24px_rgba(0,0,0,0.12)]"
+>
+  <div class="container-site flex flex-col gap-5 py-6 md:py-7">
+    <div class="flex flex-col gap-2">
+      <h2 id="consent-title" class="font-display text-2xl leading-7 font-bold tracking-[-0.02em] text-ink">Cookies</h2>
+      <p class="max-w-[760px] text-base leading-6">
+        We gebruiken Google Analytics om te zien hoe de site wordt gebruikt, en de Meta-pixel om onze Instagram- en Facebook-berichten beter te laten
+        aansluiten. Cookies daarvoor plaatsen we alleen als je akkoord gaat. <a href={url('/cookies/')} class="underline">Meer over cookies</a>
+      </p>
+    </div>
+
+    <form id="consent-settings" hidden class="flex flex-col gap-3 border-t border-black/15 pt-4">
+      <label class="flex items-start gap-3">
+        <input type="checkbox" checked disabled class="mt-1 size-4 accent-black" />
+        <span><strong class="font-bold">Noodzakelijk</strong> — onthoudt je cookiekeuze. Altijd aan.</span>
+      </label>
+      <label class="flex items-start gap-3">
+        <input type="checkbox" name="analytics" class="mt-1 size-4 accent-black" />
+        <span><strong class="font-bold">Statistiek</strong> — Google Analytics: welke pagina's bezocht worden.</span>
+      </label>
+      <label class="flex items-start gap-3">
+        <input type="checkbox" name="marketing" class="mt-1 size-4 accent-black" />
+        <span><strong class="font-bold">Marketing</strong> — Meta-pixel: berichten op Instagram en Facebook.</span>
+      </label>
+    </form>
+
+    <div class="flex flex-wrap gap-3">
+      <button type="button" data-consent="reject" class:list={[buttonBase, 'border-black bg-black text-cream hover:bg-transparent hover:text-black']}>
+        Weigeren
+      </button>
+      <button type="button" data-consent="accept" class:list={[buttonBase, 'border-black bg-black text-cream hover:bg-transparent hover:text-black']}>
+        Akkoord
+      </button>
+      <button type="button" data-consent="settings" aria-controls="consent-settings" aria-expanded="false" class:list={[buttonBase, 'border-black hover:bg-black hover:text-cream']}>
+        Instellingen
+      </button>
+      <button type="button" data-consent="save" hidden class:list={[buttonBase, 'border-black hover:bg-black hover:text-cream']}>
+        Keuze opslaan
+      </button>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var banner = document.getElementById('consent-banner');
+    var settings = document.getElementById('consent-settings');
+    var toggle = banner.querySelector('[data-consent="settings"]');
+    var save = banner.querySelector('[data-consent="save"]');
+    var consent = window.arhConsent;
+
+    function showSettings(show) {
+      settings.hidden = !show;
+      save.hidden = !show;
+      toggle.hidden = show;
+      toggle.setAttribute('aria-expanded', String(show));
+    }
+
+    function open(withSettings) {
+      var current = consent.get();
+      settings.elements.analytics.checked = !!(current && current.analytics);
+      settings.elements.marketing.checked = !!(current && current.marketing);
+      showSettings(withSettings);
+      banner.hidden = false;
+    }
+
+    function choose(analytics, marketing) {
+      banner.hidden = true;
+      consent.set({ analytics: analytics, marketing: marketing });
+    }
+
+    banner.addEventListener('click', function (event) {
+      var button = event.target.closest('[data-consent]');
+      if (!button) return;
+      var action = button.getAttribute('data-consent');
+      if (action === 'accept') choose(true, true);
+      if (action === 'reject') choose(false, false);
+      if (action === 'settings') showSettings(true);
+      if (action === 'save') choose(settings.elements.analytics.checked, settings.elements.marketing.checked);
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!event.target.closest('[data-consent-open]')) return;
+      event.preventDefault();
+      open(true);
+    });
+
+    if (!consent.get()) open(false);
+  })();
+</script>

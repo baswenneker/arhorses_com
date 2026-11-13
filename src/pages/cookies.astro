@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+
+const cookies = [
+  { name: 'arh-consent', purpose: 'Onthoudt je cookiekeuze (opgeslagen in je browser).', kind: 'Noodzakelijk', term: 'Tot je hem wist' },
+  { name: '_ga, _ga_*', purpose: 'Google Analytics: telt bezoeken en bekeken pagina’s.', kind: 'Statistiek', term: '2 jaar' },
+  { name: '_fbp', purpose: 'Meta-pixel: koppelt bezoeken aan advertenties en berichten op Instagram en Facebook.', kind: 'Marketing', term: '3 maanden' },
+];
+---
+
+<BaseLayout title="Cookies – AR Horses" description="Welke cookies arhorses.com gebruikt en waarom.">
+  <section class="bg-cream">
+    <div class="container-site flex max-w-[860px] flex-col gap-6 py-16 md:py-24">
+      <p class="label-caps">Cookies</p>
+      <h1 class="font-display text-5xl leading-[1] font-bold tracking-[-0.03em] text-ink md:text-6xl">Cookies op deze site</h1>
+      <p class="text-lg leading-7">
+        {site.legalName} gebruikt Google Analytics om te zien hoe de site wordt gebruikt, en de Meta-pixel om berichten op Instagram en Facebook te
+        laten aansluiten bij bezoekers van de site. Cookies voor statistiek en marketing plaatsen we alleen als je daar akkoord voor geeft.
+      </p>
+      <p class="text-lg leading-7">
+        Zonder akkoord laadt Google Analytics wel, maar zonder cookies. Google ontvangt dan alleen anonieme signalen dat een pagina is bekeken. De
+        Meta-pixel laadt zonder akkoord helemaal niet.
+      </p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[560px] border-collapse text-left text-base leading-6">
+          <thead>
+            <tr class="border-b border-black/30">
+              <th class="py-3 pr-4 font-bold">Cookie</th>
+              <th class="py-3 pr-4 font-bold">Doel</th>
+              <th class="py-3 pr-4 font-bold">Soort</th>
+              <th class="py-3 font-bold">Bewaartermijn</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              cookies.map((cookie) => (
+                <tr class="border-b border-black/15 align-top">
+                  <td class="py-3 pr-4 font-mono text-sm">{cookie.name}</td>
+                  <td class="py-3 pr-4">{cookie.purpose}</td>
+                  <td class="py-3 pr-4">{cookie.kind}</td>
+                  <td class="py-3">{cookie.term}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-lg leading-7">
+        Je kunt je keuze altijd wijzigen via
+        <button type="button" data-consent-open class="cursor-pointer underline">Cookie-instellingen</button>, ook onderaan elke pagina. Vragen? Mail
+        naar <a href={`mailto:${site.email}`} class="underline">{site.email}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

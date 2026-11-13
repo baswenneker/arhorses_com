@@ -1,7 +1,8 @@
 # arhorses.com
 
 Static website for AR Horses, built with [Astro](https://astro.build) and Tailwind CSS 4.
-The build output is plain HTML and CSS; the only JavaScript is the mobile menu toggle.
+The build output is plain HTML and CSS; the only JavaScript is the mobile menu toggle
+and the cookie banner.
 
 ## Develop
 
@@ -16,6 +17,8 @@ pnpm build      # output in dist/
 | What | File |
 |---|---|
 | Address, email, phone, Instagram, menu | `src/data/site.ts` |
+| Google Analytics and Meta Pixel IDs | `src/data/site.ts` (`tracking`) |
+| Cookie banner / cookie page | `src/components/ConsentBanner.astro`, `src/pages/cookies.astro` |
 | Horse cards on the homepage | `src/data/horses.ts` + photo in `src/assets/horses/` |
 | The five rearing steps | `src/data/opfok.ts` + photo in `src/assets/opfok/` |
 | Colours and fonts | `src/styles/global.css` (`@theme`) |

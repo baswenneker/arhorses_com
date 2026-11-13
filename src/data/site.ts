@@ -11,6 +11,14 @@ export const site = {
   instagramHandle: '@ar.horses',
 };
 
+// Tracking IDs. While an ID is empty, that tracker is not loaded at all.
+export const tracking = {
+  // Google Analytics 4 measurement ID, e.g. 'G-XXXXXXXXXX'.
+  gaMeasurementId: '',
+  // Meta (Facebook/Instagram) Pixel ID, e.g. '1234567890123456'.
+  metaPixelId: '',
+};
+
 export const nav = [
   { label: 'Paarden', href: '/#paarden' },
   { label: 'Over ons', href: '/over-ons/' },
