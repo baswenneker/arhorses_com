@@ -6,8 +6,7 @@ export const site = {
   street: 'Lotsweg 13',
   city: 'Den Hoorn',
   email: 'info@arhorses.com',
-  // TODO: fill in the real phone number; the footer hides it while empty.
-  phone: '',
+  phone: '+31 6 4572 0399',
   instagram: 'https://www.instagram.com/ar.horses',
   instagramHandle: '@ar.horses',
 };
