@@ -1,55 +1,48 @@
 ---
-// Cookie banner: equal "Akkoord" and "Weigeren" buttons, plus per-purpose settings.
+// Cookie banner: one line of text, equal "Akkoord" and "Weigeren" buttons, per-purpose settings.
 // Any element with [data-consent-open] (the footer link) reopens it.
 import { url } from '../lib/url';
 
-const buttonBase = 'label-caps flex-1 cursor-pointer border px-5 py-3.5 text-center sm:flex-none';
+const buttonBase = 'label-caps min-w-0 flex-1 cursor-pointer border px-2 py-3 text-center md:flex-none md:px-5';
+const buttonSolid = 'border-black bg-black text-cream hover:bg-transparent hover:text-black';
 ---
 
 <section
   id="consent-banner"
-  aria-labelledby="consent-title"
+  aria-label="Cookietoestemming"
   hidden
   class="fixed inset-x-0 bottom-0 z-50 border-t border-black/20 bg-cream text-black shadow-[0_-8px_24px_rgba(0,0,0,0.12)]"
 >
-  <div class="container-site flex flex-col gap-5 py-6 md:py-7">
-    <div class="flex flex-col gap-2">
-      <h2 id="consent-title" class="font-display text-2xl leading-7 font-bold tracking-[-0.02em] text-ink">Cookies</h2>
-      <p class="max-w-[760px] text-base leading-6">
-        We gebruiken Google Analytics om te zien hoe de site wordt gebruikt, en de Meta-pixel om onze Instagram- en Facebook-berichten beter te laten
-        aansluiten. Cookies daarvoor plaatsen we alleen als je akkoord gaat. <a href={url('/cookies/')} class="underline">Meer over cookies</a>
-      </p>
-    </div>
-
-    <form id="consent-settings" hidden class="flex flex-col gap-3 border-t border-black/15 pt-4">
-      <label class="flex items-start gap-3">
-        <input type="checkbox" checked disabled class="mt-1 size-4 accent-black" />
-        <span><strong class="font-bold">Noodzakelijk</strong> — onthoudt je cookiekeuze. Altijd aan.</span>
-      </label>
-      <label class="flex items-start gap-3">
-        <input type="checkbox" name="analytics" class="mt-1 size-4 accent-black" />
-        <span><strong class="font-bold">Statistiek</strong> — Google Analytics: welke pagina's bezocht worden.</span>
-      </label>
-      <label class="flex items-start gap-3">
-        <input type="checkbox" name="marketing" class="mt-1 size-4 accent-black" />
-        <span><strong class="font-bold">Marketing</strong> — Meta-pixel: berichten op Instagram en Facebook.</span>
-      </label>
-    </form>
-
-    <div class="flex flex-wrap gap-3">
-      <button type="button" data-consent="reject" class:list={[buttonBase, 'border-black bg-black text-cream hover:bg-transparent hover:text-black']}>
-        Weigeren
-      </button>
-      <button type="button" data-consent="accept" class:list={[buttonBase, 'border-black bg-black text-cream hover:bg-transparent hover:text-black']}>
-        Akkoord
-      </button>
-      <button type="button" data-consent="settings" aria-controls="consent-settings" aria-expanded="false" class:list={[buttonBase, 'border-black hover:bg-black hover:text-cream']}>
+  <div class="container-site flex flex-col gap-3 py-4 md:flex-row md:flex-wrap md:items-center md:gap-x-8">
+    <p class="text-[15px] leading-[22px] md:min-w-0 md:flex-1">
+      We gebruiken cookies voor statistiek en voor Instagram en Facebook, alleen met je akkoord.{' '}
+      <a href={url('/cookies/')} class="underline">Meer info</a>{' '}
+      <span aria-hidden="true">·</span>{' '}
+      <button type="button" data-consent="settings" aria-controls="consent-settings" aria-expanded="false" class="cursor-pointer underline">
         Instellingen
       </button>
-      <button type="button" data-consent="save" hidden class:list={[buttonBase, 'border-black hover:bg-black hover:text-cream']}>
-        Keuze opslaan
-      </button>
+    </p>
+
+    <div class="flex gap-3">
+      <button type="button" data-consent="reject" class:list={[buttonBase, buttonSolid]}>Weigeren</button>
+      <button type="button" data-consent="accept" class:list={[buttonBase, buttonSolid]}>Akkoord</button>
+      <button type="button" data-consent="save" hidden class:list={[buttonBase, 'border-black hover:bg-black hover:text-cream']}>Opslaan</button>
     </div>
+
+    <form id="consent-settings" hidden class="flex flex-col gap-2 text-[15px] leading-[22px] md:basis-full md:flex-row md:gap-8">
+      <label class="flex items-center gap-2">
+        <input type="checkbox" checked disabled class="size-4 accent-black" />
+        Noodzakelijk
+      </label>
+      <label class="flex items-center gap-2">
+        <input type="checkbox" name="analytics" class="size-4 accent-black" />
+        Statistiek (Google Analytics)
+      </label>
+      <label class="flex items-center gap-2">
+        <input type="checkbox" name="marketing" class="size-4 accent-black" />
+        Marketing (Meta-pixel)
+      </label>
+    </form>
   </div>
 </section>
 
@@ -64,7 +57,6 @@ const buttonBase = 'label-caps flex-1 cursor-pointer border px-5 py-3.5 text-cen
     function showSettings(show) {
       settings.hidden = !show;
       save.hidden = !show;
-      toggle.hidden = show;
       toggle.setAttribute('aria-expanded', String(show));
     }
 
