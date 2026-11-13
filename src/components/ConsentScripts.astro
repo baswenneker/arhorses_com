@@ -1,0 +1,127 @@
+---
+// Loads Google Analytics and the Meta Pixel according to the visitor's cookie choice.
+//
+// Google Analytics runs in Consent Mode "advanced": gtag.js always loads, but until the
+// visitor accepts statistics it sets no cookies and only sends cookieless pings.
+// The Meta Pixel loads only after the visitor accepts marketing.
+//
+// The choice lives in localStorage under CONSENT_KEY. ConsentBanner.astro writes it
+// through window.arhConsent.set().
+import { tracking } from '../data/site';
+
+const { gaMeasurementId: gaId, metaPixelId: pixelId } = tracking;
+---
+
+<script is:inline define:vars={{ gaId, pixelId }}>
+  var CONSENT_KEY = 'arh-consent';
+  var CONSENT_VERSION = 1;
+  var TRACKING_COOKIE = /^(_ga|_gid|_gat|_fbp|_fbc)/;
+
+  function read() {
+    try {
+      var value = JSON.parse(localStorage.getItem(CONSENT_KEY));
+      if (value && value.v === CONSENT_VERSION) return value;
+    } catch (e) {}
+    return null;
+  }
+
+  function write(value) {
+    try {
+      localStorage.setItem(CONSENT_KEY, JSON.stringify(value));
+    } catch (e) {}
+  }
+
+  function gaState(analytics) {
+    return {
+      analytics_storage: analytics ? 'granted' : 'denied',
+      // No Google Ads on this site: ad signals stay off whatever the choice.
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    };
+  }
+
+  var pixelLoaded = false;
+  function loadPixel() {
+    if (!pixelId || pixelLoaded) return;
+    pixelLoaded = true;
+    /* Meta's standard base code. */
+    !(function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function () {
+        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s);
+    })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    window.fbq('init', pixelId);
+    window.fbq('track', 'PageView');
+  }
+
+  function clearTrackingCookies() {
+    var host = location.hostname;
+    var domains = ['', host, '.' + host, '.' + host.split('.').slice(-2).join('.')];
+    document.cookie.split(';').forEach(function (cookie) {
+      var name = cookie.split('=')[0].trim();
+      if (!TRACKING_COOKIE.test(name)) return;
+      domains.forEach(function (domain) {
+        document.cookie =
+          name + '=; Max-Age=0; path=/' + (domain ? '; domain=' + domain : '');
+      });
+    });
+  }
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () {
+    window.dataLayer.push(arguments);
+  };
+
+  var current = read();
+
+  if (gaId) {
+    window.gtag('consent', 'default', gaState(current ? current.analytics : false));
+    window.gtag('set', 'ads_data_redaction', true);
+    window.gtag('js', new Date());
+    window.gtag('config', gaId);
+    var ga = document.createElement('script');
+    ga.async = true;
+    ga.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaId);
+    document.head.appendChild(ga);
+  }
+
+  if (current && current.marketing) loadPixel();
+
+  window.arhConsent = {
+    get: read,
+    set: function (choice) {
+      var previous = read();
+      var next = {
+        v: CONSENT_VERSION,
+        analytics: !!choice.analytics,
+        marketing: !!choice.marketing,
+        date: new Date().toISOString(),
+      };
+      write(next);
+      if (gaId) window.gtag('consent', 'update', gaState(next.analytics));
+      if (next.marketing) loadPixel();
+
+      // A loaded tracker cannot be unloaded: withdrawing consent clears its cookies
+      // and reloads the page, so it no longer runs.
+      var withdrawn =
+        previous &&
+        ((previous.analytics && !next.analytics) || (previous.marketing && !next.marketing));
+      if (withdrawn) {
+        clearTrackingCookies();
+        location.reload();
+      }
+    },
+  };
+</script>
