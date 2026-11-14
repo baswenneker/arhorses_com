@@ -5,7 +5,7 @@ import wyoming from '../assets/horses/wyoming-paulowna.jpg';
 import viola from '../assets/horses/vliets-viola.jpg';
 import wynoah from '../assets/horses/wynoah-mg.jpg';
 import wiviola from '../assets/horses/wiviola.jpg';
-import anneRokien from '../assets/site/anne-rokien.jpg';
+import anneRokien from '../assets/site/anne-rokien-card.jpg';
 
 export interface Horse {
   name: string;
@@ -49,6 +49,6 @@ export const horses: Horse[] = [
     pedigree: 'Anne & Rokien',
     instagram: 'ar.horses',
     photo: anneRokien,
-    alt: 'Anne en Rokien te paard op een bospad',
+    alt: 'Anne en Rokien te paard in een herfstbos',
   },
 ];
