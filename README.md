@@ -40,7 +40,8 @@ To publish what is on `main`:
 git push origin main:production
 ```
 
-The site currently runs at the temporary address
-https://baswenneker.github.io/arhorses_com/. To move it to arhorses.com, follow
-the comment in `astro.config.mjs`. Internal links go through `url()` in
-`src/lib/url.ts`, so they keep working after the move.
+The site runs at https://arhorses.com. DNS lives at mijn.host: the apex has
+GitHub Pages' four A and AAAA records and `www` is a CNAME to
+`baswenneker.github.io`. The custom domain is set in the repo's Pages settings;
+`public/CNAME` records it in the build. Internal links go through `url()` in
+`src/lib/url.ts`, so they follow the configured base path.
